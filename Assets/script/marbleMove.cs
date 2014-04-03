@@ -48,7 +48,7 @@ public class MarbleMove : MonoBehaviour {
 					rotateAngle = Mathf.Sign(mousePos.y-transform.position.y)*180 - rotateAngle;
 				} 
 
-				//draw circle arrow
+				//draw circle direction arrow
 				Vector3 leftTopPos = new Vector3 
 									(transform.position.x - circleArrow.width/2/pixelToUnit,
 					 				 transform.position.y + circleArrow.height/2/pixelToUnit,
