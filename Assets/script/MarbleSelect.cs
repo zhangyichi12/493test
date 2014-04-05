@@ -6,13 +6,17 @@ public class MarbleSelect : MonoBehaviour {
 	private GameObject 	selectedMarble = null;
 	
 	void Update () {
-		if (Input.GetMouseButtonDown(0)) {
-			selectedMarble = SelectMarbelByMousePos();
-			selectedMarble.GetComponent<MarbleMove>().selected = true;
-		}
+		if (!MarblePlace.dragable) {
+			if (Input.GetMouseButtonDown(0)) {
+				selectedMarble = SelectMarbelByMousePos();
+				if (selectedMarble != null) {
+					selectedMarble.GetComponent<MarbleMove>().selected = true;
+				}
+			}
 
-		if (Input.GetMouseButtonUp (0)) {
-			selectedMarble = null;
+			if (Input.GetMouseButtonUp (0)) {
+				selectedMarble = null;
+			}
 		}
 	}
 
@@ -22,8 +26,11 @@ public class MarbleSelect : MonoBehaviour {
 	public static GameObject SelectMarbelByMousePos() {
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-		if (hit != null && hit.collider != null) {
-			return hit.rigidbody.gameObject;
+		if (hit != null && hit.collider != null && hit.rigidbody != null) {
+			GameObject go = hit.rigidbody.gameObject;
+			if (go.tag.Equals("marble")) {
+				return go;
+			}
 		}
 		return null;
 	}
