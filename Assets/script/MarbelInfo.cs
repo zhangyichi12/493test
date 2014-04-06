@@ -5,7 +5,8 @@ public class MarbelInfo : MonoBehaviour {
 
 	public bool moveable = true;
 
-	private int playerID;
+
+	public int playerID;
 
 
 
@@ -18,9 +19,9 @@ public class MarbelInfo : MonoBehaviour {
 
 
 
-	public void SetPlayerID(int id) {
-		playerID = id;
-	}
+	//public void SetPlayerID(int id) {
+	//	playerID = id;
+	//}
 
 
 

@@ -6,10 +6,10 @@ public class MarbleSelect : MonoBehaviour {
 	private GameObject 	selectedMarble = null;
 	
 	void Update () {
-		if (!MarblePlace.dragable) {
+		if (GUITest.coolTime < 0f) {
 			if (Input.GetMouseButtonDown(0)) {
 				selectedMarble = SelectMarbelByMousePos();
-				if (selectedMarble != null) {
+				if (selectedMarble != null && selectedMarble.GetComponent<MarbelInfo>().playerID == GUITest.playerNo) {
 					selectedMarble.GetComponent<MarbleMove>().selected = true;
 				}
 			}

@@ -2,25 +2,20 @@
 using System.Collections;
 
 public class MarblePlace : MonoBehaviour {
-
-	public static bool dragable = true; // change to false when game starts
+	
 	public float timer = 10;
 
 	private GameObject dragMarble = null;
 
 	void Update () {
-		timer -= Time.deltaTime;
-		if (timer <= 0f) {
-			dragable = false;
-		}
 
-		if (dragable)
+		if (GUITest.coolTime >= 0f)
 		{
 			if (Input.GetMouseButtonDown(0)) {
 				dragMarble = DragMarbelByMousePos();
 			}
 
-			if (Input.GetMouseButton(0)) {
+			if (Input.GetMouseButton(0) && dragMarble != null) {
 				Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 				pos.z = 0f;
 				dragMarble.transform.position = pos;

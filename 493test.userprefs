@@ -1,11 +1,12 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\script\MarbleMove.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/script/MarbelInfo.cs">
     <Files>
-      <File FileName="Assets\script\MarbleSelect.cs" Line="9" Column="19" />
-      <File FileName="Assets\script\MarblePlace.cs" Line="7" Column="8" />
-      <File FileName="Assets\script\MarbleMove.cs" Line="27" Column="1" />
-      <File FileName="Assets\script\MarbelInfo.cs" Line="3" Column="1" />
+      <File FileName="Assets/script/MarbleSelect.cs" Line="12" Column="105" />
+      <File FileName="Assets/script/MarbleMove.cs" Line="25" Column="48" />
+      <File FileName="Assets/script/GUITest.cs" Line="11" Column="32" />
+      <File FileName="Assets/script/MarblePlace.cs" Line="4" Column="23" />
+      <File FileName="Assets/script/MarbelInfo.cs" Line="9" Column="21" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
