@@ -6,7 +6,7 @@ public class MarbleSelect : MonoBehaviour {
 	private GameObject 	selectedMarble = null;
 	
 	void Update () {
-		if (GUITest.coolTime < 0f) {
+		if (GUITest.coolTime < 0f && !GUITest.isGameEndFlag) {
 			if (Input.GetMouseButtonDown(0)) {
 				selectedMarble = SelectMarbelByMousePos();
 				if (selectedMarble != null && selectedMarble.GetComponent<MarbelInfo>().playerID == GUITest.playerNo) {
@@ -19,25 +19,18 @@ public class MarbleSelect : MonoBehaviour {
 			}
 		}
 	}
-
-
-	
+  	
 	#region helperFunc
 	public static GameObject SelectMarbelByMousePos() {
-		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+		//Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-		if (hit != null && hit.collider != null && hit.rigidbody != null) {
+		if (hit.collider != null && hit.rigidbody != null) {
 			GameObject go = hit.rigidbody.gameObject;
 			if (go.tag.Equals("marble")) {
 				return go;
 			}
 		}
 		return null;
-	}
-
-	private float GetDragDistance() {
-		Vector3 pos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-		return (pos - selectedMarble.transform.position).magnitude;
 	}
 	#endregion
 }

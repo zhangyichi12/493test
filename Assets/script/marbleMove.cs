@@ -29,6 +29,7 @@ public class MarbleMove : MonoBehaviour {
 					Vector2 dir = new Vector2 (transform.position.x-releasePos.x, 
 					                           transform.position.y-releasePos.y);
 					rigidbody2D.AddForce (dir / dir.magnitude * forceMax * forcePercentage);
+                    StartCoroutine(changeShotVal());
 				}
 			}
 			// no longer selected
@@ -86,6 +87,10 @@ public class MarbleMove : MonoBehaviour {
 			}
 		}
 	}
-	
-	
+
+    public IEnumerator changeShotVal()
+    {
+        yield return new WaitForSeconds(1);
+        GUITest.playerHasShot = true;
+    }
 }

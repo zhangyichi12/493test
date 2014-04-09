@@ -3,8 +3,6 @@ using System.Collections;
 
 public class MarblePlace : MonoBehaviour {
 	
-	public float timer = 10;
-
 	private GameObject dragMarble = null;
 
 	void Update () {
@@ -27,13 +25,11 @@ public class MarblePlace : MonoBehaviour {
 		}
 	}
 
-
-
 	#region helperFunc
 	public static GameObject DragMarbelByMousePos() {
 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 		RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-		if (hit != null && hit.collider != null && hit.rigidbody != null) {
+		if (hit.collider != null && hit.rigidbody != null) {
 			GameObject go = hit.rigidbody.gameObject;
 			if (go.tag.Equals("marble")) {
 				return go;
