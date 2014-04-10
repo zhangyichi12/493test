@@ -33,6 +33,18 @@ public class GUITest: MonoBehaviour {
 	bool player2Turn;
 	bool player3Turn;
 
+	static string 	notifyMes;
+	static float 	notifyTimer = 3f;
+
+
+
+	public static void SetMes(string s) {
+		notifyTimer = 3f;
+		notifyMes = s;
+	}
+
+
+
 	// Use this for initialization
 	void Start () {
 		Debug.Log ("start");
@@ -45,13 +57,13 @@ public class GUITest: MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (gaming) {
-						if (ctime >= 0.0f) {
-								//finshOp();
-						} else {
-								playerNo = (playerNo + 1) % 2;
-								ctime = 20.0f;
-						}
-				}
+			if (ctime >= 0.0f) {
+				//finshOp();
+			} else {
+				playerNo = (playerNo + 1) % 2;
+				ctime = 20.0f;
+			}
+		}
 	
 	}
 		void FixedUpdate()
@@ -63,9 +75,9 @@ public class GUITest: MonoBehaviour {
 	void OnGUI()
 	{
 		if (coolTime >= 0) {
-			GUI.Label (new Rect (200, 10, 400, 50), "The Game Will Begin in " + coolTime.ToString () + " Seconds");
+			GUI.Label (new Rect (100, 10, 400, 50), "The Game Will Begin in " + coolTime.ToString () + " Seconds");
 		
-			if (GUI.Button (new Rect (600, 10, 50, 50), "Begin")) {
+			if (GUI.Button (new Rect (10, 10, 50, 50), "Begin")) {
 				StartCoroutine (prepareTimeCalculate ());
 			}
 		}
@@ -143,8 +155,13 @@ public class GUITest: MonoBehaviour {
 		}
 		if (player3Turn) {
 			GUI.Label (new Rect (10, 250, 100, 100), highLight);
-		}				
+		}		
 
+
+		if (notifyTimer >= 0f) {
+			notifyTimer -= Time.deltaTime;
+			GUI.Label (new Rect (Screen.width/2-100, 5, 400, 30), notifyMes);
+		}
     }
 
 	public IEnumerator prepareTimeCalculate()

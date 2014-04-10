@@ -2,17 +2,20 @@
 using System.Collections;
 
 public class MarblePlace : MonoBehaviour {
-	
-	public float timer = 10;
 
-	private GameObject dragMarble = null;
+	private GameObject  dragMarble = null;
+	private Vector3 	oriPos;
+	private bool		dragPosFine = true;
 
 	void Update () {
 
 		if (GUITest.coolTime >= 0f)
 		{
 			if (Input.GetMouseButtonDown(0)) {
-				dragMarble = DragMarbelByMousePos();
+				dragMarble = MarbleSelect.SelectMarbelByMousePos();
+				if (dragMarble != null) {
+					oriPos = dragMarble.transform.position;
+				}
 			}
 
 			if (Input.GetMouseButton(0) && dragMarble != null) {
@@ -21,25 +24,29 @@ public class MarblePlace : MonoBehaviour {
 				dragMarble.transform.position = pos;
 			}
 		
-			if (Input.GetMouseButtonUp (0)) {
+			if (Input.GetMouseButtonUp (0) && dragMarble != null) {
+				if (!dragPosFine) {
+					dragMarble.transform.position = oriPos;
+					GUITest.SetMes("Marble CANNOT be placed outside scoring area.");
+				}
 				dragMarble = null;
 			}
 		}
-	}
-
-
-
-	#region helperFunc
-	public static GameObject DragMarbelByMousePos() {
-		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-		RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
-		if (hit != null && hit.collider != null && hit.rigidbody != null) {
-			GameObject go = hit.rigidbody.gameObject;
-			if (go.tag.Equals("marble")) {
-				return go;
-			}
+		else 
+		{
+			gameObject.GetComponent<MarbleMove> ().enabled = true;
+			gameObject.GetComponent<MarbleSelect> ().enabled = true;
+			gameObject.GetComponent<MarblePlace>().enabled = false;
 		}
-		return null;
 	}
-	#endregion
+
+
+
+	void OnTriggerEnter2D(Collider2D collision) {
+		dragPosFine = true;
+	}
+	
+	void OnTriggerExit2D(Collider2D collision) {
+		dragPosFine = false;
+	}
 }
