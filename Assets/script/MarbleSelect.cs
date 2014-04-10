@@ -4,19 +4,28 @@ using System.Collections;
 public class MarbleSelect : MonoBehaviour {
 
 	private GameObject 	selectedMarble = null;
-	
+
+
+
+	void Start() {
+		gameObject.GetComponent<MarbleSelect> ().enabled = false;
+	}
+
+
 	void Update () {
-		if (GUITest.coolTime < 0f) {
-			if (Input.GetMouseButtonDown(0)) {
-				selectedMarble = SelectMarbelByMousePos();
-				if (selectedMarble != null && selectedMarble.GetComponent<MarbelInfo>().playerID == GUITest.playerNo) {
+		if (Input.GetMouseButtonDown(0)) {
+			selectedMarble = SelectMarbelByMousePos();
+			if (selectedMarble != null) {
+				if (selectedMarble.GetComponent<MarbelInfo>().playerID == GUITest.playerNo) {
 					selectedMarble.GetComponent<MarbleMove>().selected = true;
+				} else {
+					GUITest.SetMes("You CANNOT move other players' marble.");
 				}
 			}
-
-			if (Input.GetMouseButtonUp (0)) {
-				selectedMarble = null;
-			}
+		}
+		
+		if (Input.GetMouseButtonUp (0)) {
+			selectedMarble = null;
 		}
 	}
 
