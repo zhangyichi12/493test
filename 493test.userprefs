@@ -1,8 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\script\MarbleMove.cs">
     <Files>
-      <File FileName="Assets\script\MarbleMove.cs" Line="1" Column="1" />
+      <File FileName="Assets\script\MarbleMove.cs" Line="123" Column="1" />
+      <File FileName="Assets\script\MarbleMove.cs" Line="124" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
