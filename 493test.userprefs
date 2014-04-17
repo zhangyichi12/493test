@@ -1,9 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\script\MarbleMove.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\script\NetworkManager.cs">
     <Files>
-      <File FileName="Assets\script\MarbleMove.cs" Line="123" Column="1" />
-      <File FileName="Assets\script\MarbleMove.cs" Line="124" Column="1" />
+      <File FileName="Assets\script\Control.cs" Line="4" Column="27" />
+      <File FileName="Assets\script\WaitingRoomGUI.cs" Line="1" Column="1" />
+      <File FileName="Assets\script\NetworkManager.cs" Line="47" Column="66" />
+      <File FileName="Assets\script\MarblePlace.cs" Line="85" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

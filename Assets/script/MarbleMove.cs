@@ -19,22 +19,19 @@ public class MarbleMove : MonoBehaviour {
 
 	private bool		moveable = true;
 
+	private PhotonView 	pv;
 
 
+	
 	void Start() {
-		gameObject.GetComponent<Animator> ().enabled = false;
+		pv = gameObject.GetComponent<PhotonView> ();
+
 		gameObject.GetComponent<MarbleMove> ().enabled = false;
 	}
 
 
 
 	void Update() {
-		if (!moveable && rigidbody2D.velocity.magnitude <= 0.5f) {
-			// dead
-			gameObject.GetComponent<Animator>().enabled = true;
-			rigidbody2D.isKinematic = true;
-		}
-		
 		if (Input.GetMouseButtonUp(0)) {
 			if (selected && moveable) {
 				// shoot marble
@@ -42,7 +39,8 @@ public class MarbleMove : MonoBehaviour {
 					Vector3	releasePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 					Vector2 dir = new Vector2 (transform.position.x-releasePos.x, 
 					                           transform.position.y-releasePos.y);
-					rigidbody2D.AddForce (dir / dir.magnitude * forceMax * forcePercentage);
+					Vector2 force = dir / dir.magnitude * forceMax * forcePercentage;
+					pv.RPC("ApplyForceToMarble", PhotonTargets.All, gameObject.name, new Vector3(force.x, force.y, 0f));
 				}
 			}
 			// no longer selected
@@ -52,7 +50,7 @@ public class MarbleMove : MonoBehaviour {
 
 
 
-	void OnGUI () {		
+	void OnGUI () {	
 		if (Input.GetMouseButton(0)) {
 			if (selected) {	
 				if (moveable) {
@@ -105,10 +103,17 @@ public class MarbleMove : MonoBehaviour {
 					GUI.DrawTexture(new Rect(0, 0, length, height), fullBar);
 					GUI.EndGroup();
 				} else {
-					GUITest.SetMes("The marble is dead and CANNOT be moved.");
+					PlayPageGUI.SetMes("The marble is dead and CANNOT be moved.");
 				}
 			}
 		}
+	}
+
+
+
+	[RPC] void ApplyForceToMarble(string name, Vector3 f)
+	{
+		GameObject.Find(name).rigidbody2D.AddForce (new Vector2(f.x, f.y));
 	}
 
 

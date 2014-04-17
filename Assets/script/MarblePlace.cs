@@ -7,37 +7,92 @@ public class MarblePlace : MonoBehaviour {
 	private Vector3 	oriPos;
 	private bool		dragPosFine = true;
 
-	void Update () {
+	private int			color;
 
-		if (GUITest.coolTime >= 0f)
+	private PhotonView 	pv;
+
+
+
+	void Awake()
+	{
+		color = (int)PhotonNetwork.player.customProperties["color"];
+		pv = gameObject.GetComponent<PhotonView> ();
+
+		GameObject[] marblePos = GameObject.FindGameObjectsWithTag(color.ToString());
+		for (int i = 0; i < marblePos.Length; i++) 
 		{
-			if (Input.GetMouseButtonDown(0)) {
+			string name = color.ToString() + i.ToString();
+			PhotonNetwork.Instantiate(name, marblePos[i].transform.position, Quaternion.identity, 0);
+		}
+	}
+
+
+
+	void Update () {
+		if (PlayPageGUI.coolTime >= 0f)
+		{
+			if (Input.GetMouseButtonDown(0)) 
+			{
 				dragMarble = MarbleSelect.SelectMarbelByMousePos();
 				if (dragMarble != null) {
-					oriPos = dragMarble.transform.position;
+					if (dragMarble.name[0].ToString() == color.ToString()) 
+					{
+						oriPos = dragMarble.transform.position;
+					} 
+					else
+					{
+						PlayPageGUI.SetMes("CANNOT move other players' marbles.");
+						dragMarble = null;
+					}
 				}
 			}
-
-			if (Input.GetMouseButton(0) && dragMarble != null) {
+			
+			if (Input.GetMouseButton(0) && dragMarble != null) 
+			{
 				Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 				pos.z = 0f;
 				dragMarble.transform.position = pos;
 			}
-		
-			if (Input.GetMouseButtonUp (0) && dragMarble != null) {
-				if (!dragPosFine) {
+			
+			if (Input.GetMouseButtonUp (0) && dragMarble != null) 
+			{
+				if (!dragPosFine) 
+				{
 					dragMarble.transform.position = oriPos;
-					GUITest.SetMes("Marble CANNOT be placed outside scoring area.");
+					PlayPageGUI.SetMes("Marble CANNOT be placed outside scoring area.");
+				} 
+				else
+				{
+					Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+					pos.z = 0f;
+					pv.RPC ("PlaceMarbleto", PhotonTargets.All, dragMarble.name, pos);
 				}
+
 				dragMarble = null;
 			}
 		}
 		else 
 		{
-			gameObject.GetComponent<MarbleMove> ().enabled = true;
-			gameObject.GetComponent<MarbleSelect> ().enabled = true;
 			gameObject.GetComponent<MarblePlace>().enabled = false;
+
+			GameObject[] marble = GameObject.FindGameObjectsWithTag("marble"); 
+			for (int i = 0; i < marble.Length; i++)
+			{
+				if (marble[i].name[0].ToString() == color.ToString())
+				{
+					marble[i].GetComponent<MarbleSelect> ().enabled = true;
+					marble[i].GetComponent<MarbleMove> ().enabled = true;
+				}
+			}
 		}
+	}
+
+
+
+	
+	[RPC] void PlaceMarbleto(string name, Vector3 pos)
+	{
+		GameObject.Find (name).transform.position = pos;
 	}
 
 
