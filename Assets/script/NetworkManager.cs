@@ -32,19 +32,19 @@ public class NetworkManager : MonoBehaviour {
 		GUILayout.Label(PhotonNetwork.connectionStateDetailed.ToString());
 
 		if (GUI.Button(new Rect(100, 100, 250, 100), "Create Two Person Game"))
-			CreateGame(2);
+			CreateGame(4);
 
 		if (GUI.Button (new Rect (100, 250, 250, 100), "Get Available Two Person Game"))
-			GetAvailableGame (2);
+			GetAvailableGame (4);
 		
 		if (roomList != null)
 		{
 			int count = 0;
 			for (int i = 0; i < roomList.Length; i++)
 			{
-				if (roomList[i].maxPlayers == 2)
+				if (roomList[i].maxPlayers == 4)
 				{
-					string roomName = roomList[i].playerCount.ToString() + "/2";
+					string roomName = roomList[i].playerCount.ToString() + "/4";
 
 					if (GUI.Button(new Rect(400, 100+(110*count), 200, 100), roomName))
 						JoinGame(roomList[i]);
@@ -76,7 +76,7 @@ public class NetworkManager : MonoBehaviour {
 	void OnJoinedRoom()
 	{
 		ExitGames.Client.Photon.Hashtable info = new ExitGames.Client.Photon.Hashtable();
-		info.Add ("color", PhotonNetwork.room.playerCount);
+		info.Add ("color", PhotonNetwork.room.playerCount-1);
 		PhotonNetwork.player.SetCustomProperties (info);
 	}
 }

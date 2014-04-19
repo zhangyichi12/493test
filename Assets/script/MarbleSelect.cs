@@ -17,25 +17,33 @@ public class MarbleSelect : MonoBehaviour {
 	}
 
 
+
 	void Update () 
 	{
-		if (Input.GetMouseButtonDown(0)) 
+		if (ProcessControl.canTakeInput)
 		{
-			selectedMarble = SelectMarbelByMousePos();
-			if (selectedMarble != null) 
+			if (Input.GetMouseButtonDown(0)) 
 			{
-				if (selectedMarble.name[0].ToString() == color.ToString()) 
+				selectedMarble = SelectMarbelByMousePos();
+				if (selectedMarble != null) 
 				{
-					selectedMarble.GetComponent<MarbleMove>().selected = true;
-				} 
-				else 
-				{
-					PlayPageGUI.SetMes("You CANNOT move other players' marble.");
+					if (selectedMarble.name[0].ToString() == color.ToString()) 
+					{
+						selectedMarble.GetComponent<MarbleMove>().selected = true;
+					} 
+					else 
+					{
+						PlayPageGUI.SetMes("You CANNOT move other players' marble.");
+					}
 				}
 			}
+			
+			if (Input.GetMouseButtonUp (0)) 
+			{
+				selectedMarble = null;
+			}
 		}
-		
-		if (Input.GetMouseButtonUp (0)) 
+		else
 		{
 			selectedMarble = null;
 		}

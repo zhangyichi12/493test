@@ -5,9 +5,8 @@ public class MarblePlace : MonoBehaviour {
 
 	private GameObject  dragMarble = null;
 	private Vector3 	oriPos;
-	private bool		dragPosFine = true;
 
-	private int			color;
+	private int			color; // 0~3
 
 	private PhotonView 	pv;
 
@@ -29,8 +28,16 @@ public class MarblePlace : MonoBehaviour {
 
 
 	void Update () {
-		if (PlayPageGUI.coolTime >= 0f)
+		if (!ProcessControl.gameStarts)
 		{
+			if (dragMarble != null && !dragMarble.GetComponent<MarbleState>().dragable)
+			{
+				dragMarble.transform.position = oriPos;
+				PlayPageGUI.SetMes("Marble CANNOT be placed outside scoring area.");
+				dragMarble.GetComponent<MarbleState>().dragable = true;
+				dragMarble = null;
+			}
+
 			if (Input.GetMouseButtonDown(0)) 
 			{
 				dragMarble = MarbleSelect.SelectMarbelByMousePos();
@@ -56,18 +63,9 @@ public class MarblePlace : MonoBehaviour {
 			
 			if (Input.GetMouseButtonUp (0) && dragMarble != null) 
 			{
-				if (!dragPosFine) 
-				{
-					dragMarble.transform.position = oriPos;
-					PlayPageGUI.SetMes("Marble CANNOT be placed outside scoring area.");
-				} 
-				else
-				{
-					Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-					pos.z = 0f;
-					pv.RPC ("PlaceMarbleto", PhotonTargets.All, dragMarble.name, pos);
-				}
-
+				Vector3 pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				pos.z = 0f;
+				pv.RPC ("PlaceMarbleto", PhotonTargets.All, dragMarble.name, pos);
 				dragMarble = null;
 			}
 		}
@@ -75,9 +73,16 @@ public class MarblePlace : MonoBehaviour {
 		{
 			gameObject.GetComponent<MarblePlace>().enabled = false;
 
+			GameObject[] margin = GameObject.FindGameObjectsWithTag("placeMargin");
+			for (int i = 0; i < margin.Length; i++)
+			{
+				Destroy(margin[i]);
+			}
+
 			GameObject[] marble = GameObject.FindGameObjectsWithTag("marble"); 
 			for (int i = 0; i < marble.Length; i++)
 			{
+				marble[i].GetComponent<MarbleState>().enabled = true;
 				if (marble[i].name[0].ToString() == color.ToString())
 				{
 					marble[i].GetComponent<MarbleSelect> ().enabled = true;
@@ -93,15 +98,5 @@ public class MarblePlace : MonoBehaviour {
 	[RPC] void PlaceMarbleto(string name, Vector3 pos)
 	{
 		GameObject.Find (name).transform.position = pos;
-	}
-
-
-
-	void OnTriggerEnter2D(Collider2D collision) {
-		dragPosFine = true;
-	}
-	
-	void OnTriggerExit2D(Collider2D collision) {
-		dragPosFine = false;
 	}
 }

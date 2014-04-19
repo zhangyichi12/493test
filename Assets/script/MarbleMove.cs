@@ -17,13 +17,12 @@ public class MarbleMove : MonoBehaviour {
 	
 	private float		rotateAngle = 0f;
 
-	private bool		moveable = true;
-
 	private PhotonView 	pv;
 
 
 	
-	void Start() {
+	void Start() 
+	{
 		pv = gameObject.GetComponent<PhotonView> ();
 
 		gameObject.GetComponent<MarbleMove> ().enabled = false;
@@ -32,18 +31,28 @@ public class MarbleMove : MonoBehaviour {
 
 
 	void Update() {
-		if (Input.GetMouseButtonUp(0)) {
-			if (selected && moveable) {
-				// shoot marble
-				if (gameObject != MarbleSelect.SelectMarbelByMousePos()) {
-					Vector3	releasePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
-					Vector2 dir = new Vector2 (transform.position.x-releasePos.x, 
-					                           transform.position.y-releasePos.y);
-					Vector2 force = dir / dir.magnitude * forceMax * forcePercentage;
-					pv.RPC("ApplyForceToMarble", PhotonTargets.All, gameObject.name, new Vector3(force.x, force.y, 0f));
+		if (ProcessControl.canTakeInput)
+		{
+			if (Input.GetMouseButtonUp(0)) 
+			{
+				if (selected && gameObject.GetComponent<MarbleState> ().moveable) 
+				{
+					// shoot marble
+					if (gameObject != MarbleSelect.SelectMarbelByMousePos()) 
+					{
+						Vector3	releasePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
+						Vector2 dir = new Vector2 (transform.position.x-releasePos.x, 
+						                           transform.position.y-releasePos.y);
+						Vector2 force = dir / dir.magnitude * forceMax * forcePercentage;
+						pv.RPC("ApplyForceToMarble", PhotonTargets.All, gameObject.name, new Vector3(force.x, force.y, 0f));
+					}
 				}
+				// no longer selected
+				selected = false;
 			}
-			// no longer selected
+		}
+		else
+		{
 			selected = false;
 		}
 	}
@@ -51,9 +60,12 @@ public class MarbleMove : MonoBehaviour {
 
 
 	void OnGUI () {	
-		if (Input.GetMouseButton(0)) {
-			if (selected) {	
-				if (moveable) {
+		if (Input.GetMouseButton(0)) 
+		{
+			if (selected) 
+			{	
+				if (gameObject.GetComponent<MarbleState> ().moveable) 
+				{
 					Vector3 mousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 					mousePos.z = 0f;
 					rotateAngle = Mathf.Rad2Deg * 
@@ -102,7 +114,9 @@ public class MarbleMove : MonoBehaviour {
 					GUI.BeginGroup(guiBox);
 					GUI.DrawTexture(new Rect(0, 0, length, height), fullBar);
 					GUI.EndGroup();
-				} else {
+				} 
+				else 
+				{
 					PlayPageGUI.SetMes("The marble is dead and CANNOT be moved.");
 				}
 			}
@@ -114,15 +128,7 @@ public class MarbleMove : MonoBehaviour {
 	[RPC] void ApplyForceToMarble(string name, Vector3 f)
 	{
 		GameObject.Find(name).rigidbody2D.AddForce (new Vector2(f.x, f.y));
+		ProcessControl.whoseTurn = (ProcessControl.whoseTurn+1) % PhotonNetwork.room.playerCount;
 	}
 
-
-
-	void OnTriggerEnter2D(Collider2D collision) {
-		moveable = true;
-	}
-	
-	void OnTriggerExit2D(Collider2D collision) {
-		moveable = false;
-	}
 }
