@@ -7,16 +7,22 @@ public class PlayPageGUI: MonoBehaviour {
 	public Texture2D 	highLight;
 	public Texture2D 	emptyTimeBar;
 	public Texture2D 	fullTimeBar;
+	public Texture2D playerYellow;
+	public Texture2D playerGreen;
+	public Texture2D playerPink;
+	public Texture2D playerBlue;
+	public GUIStyle     playerNameFont;
 
 	public static float coolTime = 10f;
 
 	private float    	timePercentage = 0f;
+	private string[] playerName = {"", "", "", ""};
 
-	int figureLength=50;
-	int figureWidth=50;
+	int figureLength=100;
+	int figureHeight=100;
 
 	int timeBarLength=80;
-	int timeBarWidth=10;
+	int timeBarHeight=20;
 
 	int highLightLength=70;
 	int highLightWidth=70;
@@ -30,15 +36,24 @@ public class PlayPageGUI: MonoBehaviour {
 	{
 		notifyTimer = 3f;
 		notifyMes = s;
+
 	}
 
 
 
 	void Awake () 
 	{
-		Debug.Log ("start");
-		StartCoroutine (prepareTimeCalculate ());
-	}
+				Debug.Log ("start");
+				StartCoroutine (prepareTimeCalculate ());
+		Debug.Log (PhotonNetwork.playerList.Length);
+		for (int i=0; i<PhotonNetwork.playerList.Length; i++) 
+		        {
+			Debug.Log (PhotonNetwork.playerList[i].name);
+					playerName [i] = PhotonNetwork.playerList[i].name;
+			//playerName[i] = "player";
+						Debug.Log (playerName [i]);
+				}
+		}
 
 	void Update () 
 	{
@@ -59,8 +74,10 @@ public class PlayPageGUI: MonoBehaviour {
 
 	void OnGUI()
 	{
+		Vector2 figurePosition = new Vector2 (Screen.width/2-Screen.width/3, Screen.height / 6);
+
 		if (coolTime >= 0) {
-			GUI.Label (new Rect (10, 10, 400, 50), "The Game Will Begin in " + coolTime.ToString () + " Seconds");
+			GUI.Label (new Rect (Screen.width/2-timeBarLength/2, Screen.height/11, 400, 50), "The Game Will Begin in " + coolTime.ToString () + " Seconds");
 		}
 
 		//timer
@@ -70,31 +87,31 @@ public class PlayPageGUI: MonoBehaviour {
 			if (ProcessControl.playTimer < ProcessControl.maxPlayTime)
 			{
 				timePercentage = ProcessControl.playTimer / ProcessControl.maxPlayTime;
+				Rect guiBox = new Rect (Screen.width/2-timeBarLength/2, Screen.height/10, timeBarLength, timeBarHeight);
+				GUI.BeginGroup (guiBox);
+				GUI.DrawTexture (new Rect (0, 0, timeBarLength, timeBarHeight), emptyTimeBar);
+				GUI.EndGroup ();
+				guiBox = new Rect (Screen.width/2-timeBarLength/2, Screen.height/10, timeBarLength * timePercentage, timeBarHeight);
+				GUI.BeginGroup (guiBox);
+				GUI.DrawTexture (new Rect (0, 0, timeBarLength, timeBarHeight), fullTimeBar);
+				GUI.EndGroup ();
+									
 				switch (ProcessControl.whoseTurn) 
 				{
 				case 0:
-					Rect guiBox = new Rect (10, 130, timeBarLength, timeBarWidth);
-					GUI.BeginGroup (guiBox);
-					GUI.DrawTexture (new Rect (0, 0, timeBarLength, timeBarWidth), emptyTimeBar);
-					GUI.EndGroup ();
-					
-					guiBox = new Rect (10, 130, timeBarLength * timePercentage, timeBarWidth);
-					GUI.BeginGroup (guiBox);
-					GUI.DrawTexture (new Rect (0, 0, timeBarLength, timeBarWidth), fullTimeBar);
-					GUI.EndGroup ();
-					GUI.Label (new Rect (10, 55, highLightLength,highLightWidth), highLight);
+					GUI.Label (new Rect (figurePosition.x, figurePosition.y, highLightLength,highLightWidth), highLight);
 					break;
 				case 1:
-					guiBox = new Rect (10, 230, timeBarLength, timeBarWidth);
-					GUI.BeginGroup (guiBox);
-					GUI.DrawTexture (new Rect (0, 0, timeBarLength, timeBarWidth), emptyTimeBar);
-					GUI.EndGroup ();
-					
-					guiBox = new Rect (10, 230, timeBarLength * timePercentage, timeBarWidth);
-					GUI.BeginGroup (guiBox);
-					GUI.DrawTexture (new Rect (0, 0, timeBarLength, timeBarWidth), fullTimeBar);
-					GUI.EndGroup ();
-					GUI.Label (new Rect (10, 155, highLightLength,highLightWidth), highLight);
+
+					GUI.Label (new Rect (Screen.width-figurePosition.x+300, figurePosition.y,highLightLength,highLightWidth), highLight);
+					break;
+
+				case 2:
+					GUI.Label (new Rect (figurePosition.x, Screen.height-figurePosition.y-figureHeight, highLightLength,highLightWidth), highLight);
+					break;
+
+				case 3:
+					GUI.Label (new Rect (Screen.width-figurePosition.x-figureLength, Screen.height-figurePosition.y-figureHeight, highLightLength,highLightWidth), highLight);
 					break;
 				default:
 					Debug.Log ("Bug happens");
@@ -104,24 +121,26 @@ public class PlayPageGUI: MonoBehaviour {
 		}
 
 		// player profile
-		GUIStyle fontStyle = new GUIStyle ();
-		fontStyle.fontSize = 12;
+		//GUIStyle fontStyle = new GUIStyle ();
+		//fontStyle.fontSize = 12;
 
-		GUILayout.BeginArea (new Rect (10, 10, Screen.width / 4, Screen.height));
-		GUILayout.BeginVertical ();
+
 		
-		GUI.Label (new Rect (10, 50, figureLength, figureWidth), playerProfile);
-		GUI.Label (new Rect (10, 100, 30, 20), "Player 1", fontStyle);
+		GUI.Label (new Rect (figurePosition.x, figurePosition.y, figureLength, figureHeight), playerYellow);
+		GUI.Label (new Rect (figurePosition.x, figurePosition.x+20, 30, 20), playerName[0], playerNameFont);
 		
 		
-		GUI.Label (new Rect (10, 150, figureLength, figureWidth), playerProfile);
-		GUI.Label (new Rect (10, 200, 30, 20), "Player 2", fontStyle);
+		GUI.Label (new Rect (Screen.width-figurePosition.x-figureLength, figurePosition.y, figureLength, figureHeight), playerGreen);
+		GUI.Label (new Rect (Screen.width-figurePosition.x-figureLength, figurePosition.y+20, 30, 20), playerName[1], playerNameFont);
 		
-		GUI.Label (new Rect (10, 250, figureLength, figureWidth), playerProfile);
-		GUI.Label (new Rect (10, 300, 30, 20), "Player 3", fontStyle);		
+		GUI.Label (new Rect (figurePosition.x, Screen.height-figurePosition.y-figureHeight, figureLength, figureHeight), playerPink);
+		GUI.Label (new Rect (figurePosition.x, Screen.height-figurePosition.y-figureHeight+20, 30, 20), playerName[2], playerNameFont);
+
+		GUI.Label (new Rect (Screen.width-figurePosition.x-figureLength, Screen.height-figurePosition.y-figureHeight, figureLength, figureHeight), playerBlue);
+		GUI.Label (new Rect (Screen.width-figurePosition.x-figureLength, Screen.height-figurePosition.y-figureHeight+20, 30, 20), playerName[3], playerNameFont);
+
 		
-		GUILayout.EndVertical ();
-		GUILayout.EndArea ();
+
 
 		// notifymessage
 		if (notifyTimer >= 0f) {

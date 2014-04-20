@@ -1,13 +1,16 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\script\PlayPageGUI.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/script/PlayPageGUI.cs">
     <Files>
-      <File FileName="Assets\script\ProcessControl.cs" Line="13" Column="54" />
-      <File FileName="Assets\script\MarblePlace.cs" Line="1" Column="1" />
-      <File FileName="Assets\script\MarbleMove.cs" Line="1" Column="1" />
-      <File FileName="Assets\script\MarbleSelect.cs" Line="1" Column="1" />
-      <File FileName="Assets\script\MarbleState.cs" Line="1" Column="1" />
-      <File FileName="Assets\script\PlayPageGUI.cs" Line="1" Column="1" />
+      <File FileName="Assets/script/MarbleState.cs" Line="1" Column="1" />
+      <File FileName="Assets/script/ProcessControl.cs" Line="29" Column="1" />
+      <File FileName="Assets/script/PlayPageGUI.cs" Line="106" Column="60" />
+      <File FileName="Assets/Photon Unity Networking/Plugins/PhotonNetwork/PhotonNetwork.cs" Line="330" Column="40" />
+      <File FileName="../waitingtest/Assets/waitingroomTest.cs" Line="176" Column="9" />
+      <File FileName="Assets/script/MarbleSelect.cs" Line="14" Column="1" />
+      <File FileName="Assets/script/MarblePlace.cs" Line="17" Column="1" />
+      <File FileName="Assets/script/NetworkManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/script/MarbleMove.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
