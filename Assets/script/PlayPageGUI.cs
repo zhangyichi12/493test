@@ -18,8 +18,8 @@ public class PlayPageGUI: MonoBehaviour {
 	private float    	timePercentage = 0f;
 	private string[] playerName = {"", "", "", ""};
 
-	int figureLength=100;
-	int figureHeight=100;
+	int figureLength=90;
+	int figureHeight=90;
 
 	int timeBarLength=80;
 	int timeBarHeight=20;
@@ -74,7 +74,7 @@ public class PlayPageGUI: MonoBehaviour {
 
 	void OnGUI()
 	{
-		Vector2 figurePosition = new Vector2 (Screen.width/2-Screen.width/3, Screen.height / 6);
+		Vector2 figurePosition = new Vector2 (Screen.width/2-430, Screen.height / 6-30);
 
 		if (coolTime >= 0) {
 			GUI.Label (new Rect (Screen.width/2-timeBarLength/2, Screen.height/11, 400, 50), "The Game Will Begin in " + coolTime.ToString () + " Seconds");
@@ -130,13 +130,13 @@ public class PlayPageGUI: MonoBehaviour {
 		GUI.Label (new Rect (figurePosition.x, figurePosition.x+20, 30, 20), playerName[0], playerNameFont);
 		
 		
-		GUI.Label (new Rect (Screen.width-figurePosition.x-figureLength, figurePosition.y, figureLength, figureHeight), playerGreen);
+		GUI.Label (new Rect (Screen.width-figurePosition.x-figureLength+35, figurePosition.y, figureLength, figureHeight), playerGreen);
 		GUI.Label (new Rect (Screen.width-figurePosition.x-figureLength, figurePosition.y+20, 30, 20), playerName[1], playerNameFont);
 		
 		GUI.Label (new Rect (figurePosition.x, Screen.height-figurePosition.y-figureHeight, figureLength, figureHeight), playerPink);
 		GUI.Label (new Rect (figurePosition.x, Screen.height-figurePosition.y-figureHeight+20, 30, 20), playerName[2], playerNameFont);
 
-		GUI.Label (new Rect (Screen.width-figurePosition.x-figureLength, Screen.height-figurePosition.y-figureHeight, figureLength, figureHeight), playerBlue);
+		GUI.Label (new Rect (Screen.width-figurePosition.x-figureLength+35, Screen.height-figurePosition.y-figureHeight, figureLength, figureHeight), playerBlue);
 		GUI.Label (new Rect (Screen.width-figurePosition.x-figureLength, Screen.height-figurePosition.y-figureHeight+20, 30, 20), playerName[3], playerNameFont);
 
 		
