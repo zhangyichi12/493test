@@ -1,0 +1,11 @@
+C:\Users\sencai\Documents\GitHub\493test\Temp\bin\Debug\Assembly-CSharp.dll
+C:\Users\sencai\Documents\GitHub\493test\Temp\bin\Debug\Assembly-CSharp.pdb
+C:\Users\sencai\Documents\GitHub\493test\Temp\bin\Debug\UnityEditor.dll
+C:\Users\sencai\Documents\GitHub\493test\Temp\bin\Debug\UnityEngine.dll
+C:\Users\sencai\Documents\GitHub\493test\Temp\bin\Debug\Mono.Cecil.dll
+C:\Users\sencai\Documents\GitHub\493test\Temp\bin\Debug\nunit.framework.dll
+C:\Users\sencai\Documents\GitHub\493test\Temp\bin\Debug\Unity.DataContract.dll
+C:\Users\sencai\Documents\GitHub\493test\Temp\bin\Debug\ICSharpCode.NRefactory.dll
+C:\Users\sencai\Documents\GitHub\493test\obj\Debug\Assembly-CSharp-vs.csprojResolveAssemblyReference.cache
+C:\Users\sencai\Documents\GitHub\493test\obj\Debug\Assembly-CSharp.dll
+C:\Users\sencai\Documents\GitHub\493test\obj\Debug\Assembly-CSharp.pdb

@@ -34,6 +34,7 @@ public class GUITest : MonoBehaviour
     {
         if (gaming)
         {
+            ctime -= Time.deltaTime;
             if (ctime > 0.0f)
             {
                 if(isGameEnd())
@@ -42,8 +43,8 @@ public class GUITest : MonoBehaviour
                     isGameEndFlag = true;
                     return;
                 }
-                
-                if (playerHasShot && ifAllBallsStop() || NoMarbles())
+
+                if ((playerHasShot && ifAllBallsStop()) || (!playerHasShot && NoMarbles()))
                 {
                     ctime = 0f;
                 }
@@ -57,13 +58,13 @@ public class GUITest : MonoBehaviour
         }
     }
 
-    void FixedUpdate()
+    /*void FixedUpdate()
     {
         if(gaming)
         {
-            ctime -= Time.deltaTime;
+            
         }
-    }
+    }*/
 
     void OnGUI()
     {
@@ -155,7 +156,6 @@ public class GUITest : MonoBehaviour
         GameObject[] marbles = GameObject.FindGameObjectsWithTag("marble");
         for(int i = 0; i < marbles.Length; i++)
         {
-            Debug.Log(marbles[i].rigidbody2D.velocity);
             if (marbles[i].rigidbody2D.velocity.magnitude > 0.1f)
             {
                 return false;
